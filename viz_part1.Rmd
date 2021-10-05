@@ -2,3 +2,73 @@
 title: "ggplot 1"
 output: github_document
 ---
+
+```{r}
+library(tidyverse)
+```
+
+Load in a dataset that we'll use often 
+
+```{r}
+weather_df = 
+  rnoaa::meteo_pull_monitors(
+    c("USW00094728", "USC00519397", "USS0023B17S"),
+    var = c("PRCP", "TMIN", "TMAX"), 
+    date_min = "2017-01-01",
+    date_max = "2017-12-31") %>%
+  mutate(
+    name = recode(
+      id, 
+      USW00094728 = "CentralPark_NY", 
+      USC00519397 = "Waikiki_HA",
+      USS0023B17S = "Waterhole_WA"),
+    tmin = tmin / 10,
+    tmax = tmax / 10) %>%
+  select(name, id, everything())
+```
+
+
+## Scatterplot
+
+tmax vs. tmin 
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point()
+```
+
+you can save ggplots
+
+```{r}
+## create a ggplot object and manipulate 
+ggp_tmax_tmin = 
+  weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point()
+
+ggp_tmax_tmin
+## able to save ggplot with ggsave()
+```
+
+
+## Let's fancy it up
+
+Add ... color? lines? and other stuff?
+
+```{r}
+weather_df %>% 
+## color allows to distinguish variables by color.
+  
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = 0.3) + 
+## alpha blending -- what degree of transparency, 0 -- everthing clear
+  geom_smooth(se = FALSE) ## Aids the eye in seeing patterns in the presence of overplotting
+
+weather_df %>%
+  ggplot(aes(x = tmin, y = tmax, color = name)) + 
+  geom_point(alpha = 0.3) +
+  geom_smooth(se = FALSE) + 
+  facet_grid(.~ name) ## forms a matrix of panels defined by row and column faceting variables
+```
+
