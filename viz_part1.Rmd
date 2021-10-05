@@ -5,6 +5,7 @@ output: github_document
 
 ```{r}
 library(tidyverse)
+library(ggridges)
 ```
 
 Load in a dataset that we'll use often 
@@ -71,4 +72,48 @@ weather_df %>%
   geom_smooth(se = FALSE) + 
   facet_grid(.~ name) ## forms a matrix of panels defined by row and column faceting variables
 ```
+
+
+Let's make one more scatterplot.
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = date, y = tmax, size = prcp)) +
+  geom_point(alpha = .3) + 
+  facet_grid(.~ name) + 
+  geom_smooth(se = FALSE) ## se = false --> gives standard error / ci around and se false sets it off. 
+```
+
+## Use data manipulation as part of this 
+
+```{r}
+weather_df %>% 
+  filter(name == " CentralPark_NY") %>% 
+  mutate(
+    tmax = tmax * (9/5) + 32,
+    tmin = tmin * (9/5) + 32
+    ) %>% 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_point()
+```
+
+
+## Stacking geoms
+
+
+Which geoms do you want?
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = date, y = tmax, color = name)) +
+  geom_smooth()
+```
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = tmax, y = tmin)) + 
+  geom_bin_2d()
+```
+
+
 
