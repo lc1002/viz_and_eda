@@ -96,5 +96,29 @@ weather_df %>%
   scale_color_hue(
     name = "Location",
     h = c(100,300)) +  ## viridis package has all the color maps if interested.
-    scale_color_viridis_d() ## might need to verify if its a discrete or continuous variable.
+    scale_color_viridis_d() ## might need to verify if its a discrete or continuous variable. 
+## https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html
 ```
+
+
+## Themes
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax, color = name)) + 
+  geom_point(alpha = 0.3) + 
+  labs(
+    title = "Temperature plot",
+    x = "Minimum daily temperature (C)",
+    y = "Maximum daily temperature (C)",
+    caption = "Data from rnoaa package; temperatures in 2017."
+  ) +
+  scale_color_viridis_d() +
+  theme_minimal() +
+  theme(legend.position = "bottom") ## order does matter for the theme and any additional tweek
+## additional packages for themes --> ggthemes
+```
+
+
+
+

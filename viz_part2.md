@@ -159,7 +159,7 @@ weather_df %>%
   scale_color_hue(
     name = "Location",
     h = c(100,300)) +  ## viridis package has all the color maps if interested.
-    scale_color_viridis_d() ## might need to verify if its a discrete or continuous variable.
+    scale_color_viridis_d() ## might need to verify if its a discrete or continuous variable. 
 ```
 
     ## Scale for 'colour' is already present. Adding another scale for 'colour',
@@ -168,3 +168,32 @@ weather_df %>%
     ## Warning: Removed 15 rows containing missing values (geom_point).
 
 ![](viz_part2_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+``` r
+## https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html
+```
+
+## Themes
+
+``` r
+weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax, color = name)) + 
+  geom_point(alpha = 0.3) + 
+  labs(
+    title = "Temperature plot",
+    x = "Minimum daily temperature (C)",
+    y = "Maximum daily temperature (C)",
+    caption = "Data from rnoaa package; temperatures in 2017."
+  ) +
+  scale_color_viridis_d() +
+  theme_minimal() +
+  theme(legend.position = "bottom") ## order does matter for the theme and any additional tweek
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
+
+![](viz_part2_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+``` r
+## additional packages for themes --> ggthemes
+```
